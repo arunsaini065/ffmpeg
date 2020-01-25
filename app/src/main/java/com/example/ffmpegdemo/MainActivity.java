@@ -154,6 +154,14 @@ public class MainActivity extends AppCompatActivity {
                     executeRatioCommand(filePath, 2, 5);
             }
         });
+        findViewById(R.id.filter_video).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(filePath!=null){
+                    executeFilterCommand(filePath);
+                }
+            }
+        });
         loadFFMpegBinary();
     }
 
@@ -590,6 +598,27 @@ public class MainActivity extends AppCompatActivity {
         outPutFile = dest.getAbsolutePath();
         //  String complexCommand[] = {"-i", yourRealPath,"-r", "15", "-aspect" ,""+w+":"+""+h ,"-strict" ,"-2",outPutFile};
         String complexCommand[] = new String[]{"-i", yourRealPath, "-lavf", "[0:v]scale=1920*2:1080*2,boxblur=luma_radius=min(h,w)/20:luma_power=1:chroma_radius=min(cw,ch)/20:chroma_power=1[bg];[0:v]scale=-1:1080[ov];[bg][ov]overlay=(W-w)/2:(H-h)/2,crop=w=1920:h=1080", outPutFile};
+        execFFmpegBinary(complexCommand);
+    }
+
+
+    private void executeFilterCommand(Uri filePath) {
+        File moviesDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES
+        );
+        String filePrefix = "filter_change_video";
+        String fileExtn = ".mp4";
+        String yourRealPath = getPath(MainActivity.this, filePath);
+        File dest = new File(moviesDir, filePrefix + fileExtn);
+        int fileNo = 0;
+        while (dest.exists()) {
+            fileNo++;
+            dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
+        }
+
+        outPutFile = dest.getAbsolutePath();
+        //  String complexCommand[] = {"-i", yourRealPath,"-r", "15", "-aspect" ,""+w+":"+""+h ,"-strict" ,"-2",outPutFile};
+        String complexCommand[] = { "-i",yourRealPath,"-vf", "split [main][tmp]; [tmp] lutyuv=","y=val*5"," [tmp2]; [main][tmp2] overlay", outPutFile};
         execFFmpegBinary(complexCommand);
     }
 
