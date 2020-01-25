@@ -27,7 +27,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     String outPutFile;
-    Uri filePath,filePathSecond, photoUri,AudioUri;
+    Uri filePath, filePathSecond, photoUri, AudioUri;
     ProgressDialog progressDialog;
     private int REQUEST_TAKE_GALLERY_VIDEO = 110;
     private int REQUEST_TAKE_GALLERY_VIDEO_2 = 115;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null) {
+                if (filePath != null) {
                     executeCutVideoCommand(1 * 1000, 4 * 1000, filePath);
                 }
             }
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.background).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null && photoUri!=null) {
+                if (filePath != null && photoUri != null) {
                     executeBackgroundCommand(filePath, photoUri);
                 }
             }
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.speed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null) {
+                if (filePath != null) {
                     executeSpeedCommand(.9f, filePath);
                 }
             }
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.rotate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null) {
-                    executeRotateCommand(3,filePath);
+                if (filePath != null) {
+                    executeRotateCommand(3, filePath);
                 }
             }
         });
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.setAudio).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null && AudioUri!=null) {
+                if (filePath != null && AudioUri != null) {
                     executeChangeMusicCommand(filePath, AudioUri);
                 }
             }
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.mute).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null){
+                if (filePath != null) {
                     executeMuteCommand(filePath);
                 }
             }
@@ -118,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.volume).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null){
-                    executeVolumeCommand(filePath,.5f);
+                if (filePath != null) {
+                    executeVolumeCommand(filePath, .5f);
                 }
             }
         });
         findViewById(R.id.audio_trim).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(AudioUri!=null){
+                if (AudioUri != null) {
                     executeCutAudioCommand(1 * 1000, 10 * 1000, AudioUri);
                 }
             }
@@ -134,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.marge_video).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null && filePathSecond!=null)
-              executeMargeVideoCommand(filePath,filePathSecond);
+                if (filePath != null && filePathSecond != null)
+                    executeMargeVideoCommand(filePath, filePathSecond);
             }
         });
         findViewById(R.id.selectVideo_2).setOnClickListener(new View.OnClickListener() {
@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.ratio_video).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath!=null)
-                executeRatioCommand(filePath,2,5);
+                if (filePath != null)
+                    executeRatioCommand(filePath, 2, 5);
             }
         });
         loadFFMpegBinary();
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 photoUri = uri;
             }
         }
-        if(requestCode==REQUEST_TAKE_GALLERY_AUDIO){
+        if (requestCode == REQUEST_TAKE_GALLERY_AUDIO) {
             Uri uri = data.getData();
             if (uri != null) {
                 AudioUri = uri;
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void executeBackgroundCommand(Uri filePath,Uri photoUri) {
+    private void executeBackgroundCommand(Uri filePath, Uri photoUri) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // video trim
-    private void executeCutVideoCommand(int startMs, int endMs,Uri filePath) {
+    private void executeCutVideoCommand(int startMs, int endMs, Uri filePath) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void executeSpeedCommand(float speed,Uri filePath) {
+    private void executeSpeedCommand(float speed, Uri filePath) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void executeRotateCommand(int rotate,Uri filePath) {
+    private void executeRotateCommand(int rotate, Uri filePath) {
 
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
@@ -451,7 +451,8 @@ public class MainActivity extends AppCompatActivity {
         }
         execFFmpegBinary(complexCommand);
     }
-    private void executeChangeMusicCommand(Uri filePath,Uri audioUri){
+
+    private void executeChangeMusicCommand(Uri filePath, Uri audioUri) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -470,7 +471,8 @@ public class MainActivity extends AppCompatActivity {
         String[] complexCommand = {"-i", yourRealPath, "-i", yourRealPathAudio, "-c:v", "copy", "-c:a", "aac", "-map", "0:v:0", "-map", "1:a:0", "-shortest", outPutFile};
         execFFmpegBinary(complexCommand);
     }
-    private void executeMuteCommand(Uri filePath){
+
+    private void executeMuteCommand(Uri filePath) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -485,10 +487,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         outPutFile = dest.getAbsolutePath();
-        String[] complexCommand = {"-i", yourRealPath, "-vcodec", "copy" ,"-an", outPutFile};
+        String[] complexCommand = {"-i", yourRealPath, "-vcodec", "copy", "-an", outPutFile};
         execFFmpegBinary(complexCommand);
     }
-    private void executeVolumeCommand(Uri filePath,float volume){
+
+    private void executeVolumeCommand(Uri filePath, float volume) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -503,11 +506,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         outPutFile = dest.getAbsolutePath();
-        String[] complexCommand = { "-i" ,yourRealPath,  "-filter:a", "volume="+volume, outPutFile};
+        String[] complexCommand = {"-i", yourRealPath, "-filter:a", "volume=" + volume, outPutFile};
         execFFmpegBinary(complexCommand);
     }
 
-    private void executeCutAudioCommand(int startMs, int endMs,Uri filePath) {
+    private void executeCutAudioCommand(int startMs, int endMs, Uri filePath) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -546,14 +549,15 @@ public class MainActivity extends AppCompatActivity {
                 outPutFile};
         execFFmpegBinary(complexCommand);
     }
-    private void executeMargeVideoCommand(Uri filePath,Uri filePathSecond){
+
+    private void executeMargeVideoCommand(Uri filePath, Uri filePathSecond) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
         String filePrefix = "marge_change_video";
         String fileExtn = ".mp4";
         String yourRealPath = getPath(MainActivity.this, filePath);
-        String yourRealPath2= getPath(MainActivity.this, filePathSecond);
+        String yourRealPath2 = getPath(MainActivity.this, filePathSecond);
         File dest = new File(moviesDir, filePrefix + fileExtn);
         int fileNo = 0;
         while (dest.exists()) {
@@ -568,7 +572,8 @@ public class MainActivity extends AppCompatActivity {
                 "-q", "4", "-preset", "ultrafast", outPutFile};
         execFFmpegBinary(complexCommand);
     }
-    private void executeRatioCommand(Uri filePath,int w,int h){
+
+    private void executeRatioCommand(Uri filePath, int w, int h) {
         File moviesDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MOVIES
         );
@@ -583,8 +588,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         outPutFile = dest.getAbsolutePath();
-      //  String complexCommand[] = {"-i", yourRealPath,"-r", "15", "-aspect" ,""+w+":"+""+h ,"-strict" ,"-2",outPutFile};
-        String complexCommand[] = new String[]{ "-i" ,yourRealPath, "-lavf", "[0:v]scale=1920*2:1080*2,boxblur=luma_radius=min(h,w)/20:luma_power=1:chroma_radius=min(cw,ch)/20:chroma_power=1[bg];[0:v]scale=-1:1080[ov];[bg][ov]overlay=(W-w)/2:(H-h)/2,crop=w=1920:h=1080" , outPutFile};
+        //  String complexCommand[] = {"-i", yourRealPath,"-r", "15", "-aspect" ,""+w+":"+""+h ,"-strict" ,"-2",outPutFile};
+        String complexCommand[] = new String[]{"-i", yourRealPath, "-lavf", "[0:v]scale=1920*2:1080*2,boxblur=luma_radius=min(h,w)/20:luma_power=1:chroma_radius=min(cw,ch)/20:chroma_power=1[bg];[0:v]scale=-1:1080[ov];[bg][ov]overlay=(W-w)/2:(H-h)/2,crop=w=1920:h=1080", outPutFile};
         execFFmpegBinary(complexCommand);
     }
 
