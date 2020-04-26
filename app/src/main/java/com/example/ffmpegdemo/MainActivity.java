@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressDialog = new ProgressDialog(this);
+        findViewById(R.id.video_player).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,VideoEditPlayer.class);
+                startActivity(intent);
+            }
+        });
         findViewById(R.id.selectVideo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
